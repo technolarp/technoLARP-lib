@@ -22,7 +22,7 @@ class M_neopixel : public Task
 
   uint8_t indexColor;
   
-  enum {ANIM_BLINK, ANIM_SERPENT};
+  enum {ANIM_BLINK, ANIM_SERPENT, ANIM_SERRURE_BLOQUEE, ANIM_SERRURE_ERREUR};
   uint8_t anim;
   CRGB animBlinkColor;
   CRGB animBlinkSerpent;  
@@ -32,25 +32,29 @@ class M_neopixel : public Task
   public:  
 	M_neopixel(Scheduler* aScheduler);
 
-  bool Callback();
-  bool OnEnable();
-  void OnDisable();
+	bool Callback();
+	bool OnEnable();
+	void OnDisable();
 	
 	void ledOn(int cLed, CRGB cCouleur);
 	void allLedOn(CRGB cCouleur);
 	void allLedOff();
 			
 	void moveLed();
-  void changeColor();
-  void changeColor(CRGB cCouleur);
+	void changeColor();
+	void changeColor(CRGB cCouleur);
  
 	void setIndexLed(uint8_t aLed);
 	uint8_t getIndexLed();
 
-  void startAnimBlink();
-  void startAnimSerpent(uint8_t startLed, uint8_t nbRun, uint8_t delayLed, CRGB color);
+	void startAnimBlink();
+	void startAnimSerpent(uint8_t startLed, uint8_t nbRun, uint8_t delayLed, CRGB color);
+	void startAnimSerrureBloquee(uint8_t delaiBloquage);
+	void startAnimSerrureErreur(uint8_t nbRun);
 
-  void animBlink();
-  void animSerpent();
+	void animBlink();
+	void animSerpent();
+	void animSerrureBloquee();
+	void animSerrureErreur();
 
 };
