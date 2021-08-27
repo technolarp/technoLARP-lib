@@ -161,7 +161,7 @@ bool M_neopixel::Callback()
     enable();
   }
    
-	void M_neopixel::startAnimSerpent(uint8_t startLed, uint8_t nbRun, uint8_t delayLed, CRGB color)
+	void M_neopixel::startAnimSerpent(uint8_t startLed, uint16_t nbRun, uint16_t delayLed, CRGB color)
 	{
 		setInterval(delayLed);
 		setIterations(nbRun*NB_LEDS);
@@ -173,13 +173,22 @@ bool M_neopixel::Callback()
 		enable();
 	}
   
-	void M_neopixel::startAnimSerrureBloquee(uint8_t delaiBloquage)
+	void M_neopixel::startAnimSerrureBloquee(uint16_t nbRun, uint16_t delaiBlink)
 	{
-		setInterval(200);
-		setIterations(delaiBloquage*1000/getInterval());
-		//setIterations(30);
-		forceNextIteration();
+		setInterval(delaiBlink);
+		setIterations(nbRun);
+		//forceNextIteration();
 		anim=ANIM_SERRURE_BLOQUEE;
+		
+		enableIfNot();
+	}
+	
+	void M_neopixel::startAnimSerrureErreur(uint16_t nbRun, uint16_t delaiBlink)
+	{
+		setInterval(delaiBlink);
+		setIterations(nbRun);
+		//forceNextIteration();
+		anim=ANIM_SERRURE_ERREUR;
 		
 		enableIfNot();
 	}
@@ -239,15 +248,7 @@ bool M_neopixel::Callback()
       ledStatus=!ledStatus;
     }
 	
-	void M_neopixel::startAnimSerrureErreur(uint8_t nbRun)
-	{
-		setInterval(200);
-		setIterations(nbRun);
-		forceNextIteration();
-		anim=ANIM_SERRURE_ERREUR;
-		
-		enableIfNot();
-	}
+	
 
 	void M_neopixel::animSerrureErreur()
 	{

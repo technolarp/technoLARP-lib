@@ -48,9 +48,9 @@ class M_neopixel : public Task
 	uint8_t getIndexLed();
 
 	void startAnimBlink();
-	void startAnimSerpent(uint8_t startLed, uint8_t nbRun, uint8_t delayLed, CRGB color);
-	void startAnimSerrureBloquee(uint8_t delaiBloquage);
-	void startAnimSerrureErreur(uint8_t nbRun);
+	void startAnimSerpent(uint8_t startLed, uint16_t nbRun, uint16_t delayLed, CRGB color);
+	void startAnimSerrureBloquee(uint16_t nbRun, uint16_t delaiBlink);
+	void startAnimSerrureErreur(uint16_t nbRun, uint16_t delaiBlink);
 
 	void animBlink();
 	void animSerpent();
