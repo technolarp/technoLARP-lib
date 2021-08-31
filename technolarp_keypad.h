@@ -19,4 +19,5 @@ class M_keypad
 	M_keypad();
 	
 	char getChar();
+	bool checkReset();
 };

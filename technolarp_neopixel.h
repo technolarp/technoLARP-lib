@@ -39,6 +39,9 @@ class M_neopixel : public Task
 	void ledOn(int cLed, CRGB cCouleur);
 	void allLedOn(CRGB cCouleur);
 	void allLedOff();
+	
+	void setLed(int cLed, CRGB cCouleur);
+	void ledShow();
 			
 	void moveLed();
 	void changeColor();

@@ -44,6 +44,16 @@ void M_neopixel::allLedOff()
   FastLED.show();
 }
 
+void M_neopixel::setLed(int cLed, CRGB cCouleur)
+{
+  leds[cLed] = cCouleur;
+}
+
+void M_neopixel::ledShow()
+{
+  FastLED.show();
+}
+  
 
 
 	
@@ -215,37 +225,22 @@ bool M_neopixel::Callback()
       ledOn(animSerpentIndex, animBlinkSerpent);
     }
 
-	
-
 	void M_neopixel::animSerrureBloquee()
 	{
-      for (int i=0;i<NB_LEDS;i++)
-	  {
-		if (i%2==0)
+		for (int i=0;i<NB_LEDS;i++)
 		{
 			if (ledStatus)
 			{
-				ledOn(i, CRGB::Black);
+				leds[i] = CRGB::Red;
 			}
 			else
 			{
-				ledOn(i, CRGB::Red);
-			}
-		}
-		else
-		{
-		  if (ledStatus)
-			{
-				ledOn(i, CRGB::Green);
-			}
-			else
-			{
-				ledOn(i, CRGB::Black);
-			}
-		}
-	  }
+				leds[i] = CRGB::Green;
+			}		
+		  }
+		  FastLED.show();
 
-      ledStatus=!ledStatus;
+		ledStatus=!ledStatus;
     }
 	
 	
@@ -254,17 +249,16 @@ bool M_neopixel::Callback()
 	{
 		for (int i=0;i<NB_LEDS;i++)
 		{
-			if (i%2==0)
+			if (ledStatus)
 			{
-				if (ledStatus)
-				{
-					ledOn(i, CRGB::Black);
-				}
-				else
-				{
-					ledOn(i, CRGB::Red);
-				}
+				leds[i] = CRGB::Red;
 			}
+			else
+			{
+				leds[i] = CRGB::Black;
+			}		
 		}
+		FastLED.show();
+		
 		ledStatus=!ledStatus;
 	}

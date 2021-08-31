@@ -29,4 +29,47 @@ char M_keypad::getChar()
 	return(customKeypad.getKey());
 }
 
+bool M_keypad::checkReset()
+{
+	bool charStar = false;
+	bool charA = false;
+	
+	String msg;
+	
+	if (customKeypad.getKeys())
+    {
+        for (int i=0; i<LIST_MAX; i++)   // Scan the whole key list.
+        {
+            Serial.print(i);
+            Serial.print(": ");
+			Serial.print(customKeypad.key[i].kchar);
+			Serial.print("");
+			
+			
+			
+			if ( customKeypad.key[i].stateChanged )   // Only find keys that have changed state.
+            {
+                switch (customKeypad.key[i].kstate) {  // Report active key state : IDLE, PRESSED, HOLD, or RELEASED
+                    case PRESSED:
+                    msg = " PRESSED.";
+                break;
+                    case HOLD:
+                    msg = " HOLD.";
+                break;
+                    case RELEASED:
+                    msg = " RELEASED.";
+                break;
+                    case IDLE:
+                    msg = " IDLE.";
+                }
+                Serial.print("Key ");
+                Serial.print(customKeypad.key[i].kchar);
+                Serial.print(msg);
+            }
+			
+			Serial.println();
+        }
+    }
+}
+
 
