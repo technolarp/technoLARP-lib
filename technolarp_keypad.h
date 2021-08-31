@@ -11,7 +11,7 @@
 class M_keypad
 {
   private:
-	
+	bool uneFoisFlag[4];
 	
 	
 	
@@ -20,4 +20,5 @@ class M_keypad
 	
 	char getChar();
 	bool checkReset();
+	bool checkCombo(char touche1, char touche2, uint8_t flagIndex);
 };

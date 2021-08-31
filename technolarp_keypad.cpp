@@ -21,7 +21,15 @@ Keypad_I2C customKeypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS, I2C
 M_keypad::M_keypad()
 {
   Wire.begin();
-  customKeypad.begin( );
+  customKeypad.begin();
+  
+  customKeypad.setHoldTime(2000);
+  
+  for (int i=0;i<4;i++)
+  {
+	  uneFoisFlag[i] = true;
+  }
+  
 }
 
 char M_keypad::getChar()
@@ -31,45 +39,49 @@ char M_keypad::getChar()
 
 bool M_keypad::checkReset()
 {
-	bool charStar = false;
-	bool charA = false;
+	bool checkFlag = false;
 	
-	String msg;
+	customKeypad.getKeys();
+    
+    int indexStar = customKeypad.findInList('*');
 	
-	if (customKeypad.getKeys())
-    {
-        for (int i=0; i<LIST_MAX; i++)   // Scan the whole key list.
-        {
-            Serial.print(i);
-            Serial.print(": ");
-			Serial.print(customKeypad.key[i].kchar);
-			Serial.print("");
-			
-			
-			
-			if ( customKeypad.key[i].stateChanged )   // Only find keys that have changed state.
-            {
-                switch (customKeypad.key[i].kstate) {  // Report active key state : IDLE, PRESSED, HOLD, or RELEASED
-                    case PRESSED:
-                    msg = " PRESSED.";
-                break;
-                    case HOLD:
-                    msg = " HOLD.";
-                break;
-                    case RELEASED:
-                    msg = " RELEASED.";
-                break;
-                    case IDLE:
-                    msg = " IDLE.";
-                }
-                Serial.print("Key ");
-                Serial.print(customKeypad.key[i].kchar);
-                Serial.print(msg);
-            }
-			
-			Serial.println();
-        }
-    }
+	if (indexStar>=0)
+	{
+		if ( 	(customKeypad.key[indexStar].kstate==PRESSED) || 
+				(customKeypad.key[indexStar].kstate==HOLD) )
+		{
+			checkFlag = true;
+		}
+	}
+	
+	return(checkFlag);
+}
+
+bool M_keypad::checkCombo(char touche1, char touche2, uint8_t flagIndex)
+{
+	bool checkFlag = false;
+	
+	//customKeypad.getKeys();
+    
+    int indexTouche1 = customKeypad.findInList(touche1);
+	int indexTouche2 = customKeypad.findInList(touche2);
+	
+	if ( (indexTouche1>=0) && (indexTouche2>=0) )
+	{
+		if ( 	(customKeypad.key[indexTouche1].kstate==HOLD) && 
+				(customKeypad.key[indexTouche2].kstate==HOLD) &&
+				uneFoisFlag[flagIndex] )
+		{
+			checkFlag = true;
+			uneFoisFlag[flagIndex] = false;
+		}
+	}
+	else
+	{
+		uneFoisFlag[flagIndex] = true;
+	}	
+	
+	return(checkFlag);
 }
 
 

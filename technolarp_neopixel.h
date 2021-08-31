@@ -3,7 +3,7 @@
 #define FASTLED_INTERRUPT_RETRY_COUNT 0
 #define FASTLED_ALLOW_INTERRUPTS 0
 
-#define NB_LEDS 8
+#define NB_LEDS_MAX 50
 #define LED_DATA_PIN D0
 
 #define _TASK_OO_CALLBACKS
@@ -12,10 +12,10 @@
 class M_neopixel : public Task
 {
   private:
-	//uint8_t nbLeds;
+	uint8_t nbLeds;
 	
 	// tableau de leds neopixel
-	CRGB leds[NB_LEDS];
+	CRGB leds[NB_LEDS_MAX];
 	
 	bool ledStatus;
 	uint8_t indexLed;
@@ -39,6 +39,9 @@ class M_neopixel : public Task
 	void ledOn(int cLed, CRGB cCouleur);
 	void allLedOn(CRGB cCouleur);
 	void allLedOff();
+	
+	void setNbLed(uint8_t nbLedsInit);
+	uint8_t getNbLed();
 	
 	void setLed(int cLed, CRGB cCouleur);
 	void ledShow();

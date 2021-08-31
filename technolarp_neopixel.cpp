@@ -4,10 +4,12 @@
 M_neopixel::M_neopixel(Scheduler* aScheduler) : Task(TASK_MILLISECOND*100, TASK_FOREVER, aScheduler, false)
 {
   // pour utiliser une led ws2811
-  //FastLED.addLeds<WS2811, LED_DATA_PIN>(leds, NB_LEDS);
+  //FastLED.addLeds<WS2811, LED_DATA_PIN>(leds, NB_LEDS_MAX);
   // pour utiliser une led adafruit neopixel
-  FastLED.addLeds<NEOPIXEL, LED_DATA_PIN>(leds, NB_LEDS);
+  FastLED.addLeds<NEOPIXEL, LED_DATA_PIN>(leds, NB_LEDS_MAX);
   FastLED.setBrightness(50);
+  
+  nbLeds=8;
   
   ledStatus=true;
   indexLed=0;
@@ -31,7 +33,7 @@ void M_neopixel::ledOn(int cLed, CRGB cCouleur)
 
 void M_neopixel::allLedOn(CRGB cCouleur)
 { 
-  for (int i=0;i<NB_LEDS;i++)
+  for (int i=0;i<nbLeds;i++)
   {
     leds[i] = cCouleur;
   }
@@ -54,7 +56,15 @@ void M_neopixel::ledShow()
   FastLED.show();
 }
   
+void M_neopixel::setNbLed(uint8_t nbLedsInit)
+{
+	nbLeds = nbLedsInit;
+}
 
+uint8_t M_neopixel::getNbLed()
+{
+	return(nbLeds);
+}
 
 	
 bool M_neopixel::Callback()
@@ -123,7 +133,7 @@ bool M_neopixel::Callback()
 		M_neopixel::ledOn(indexLed,CRGB::Black);
 		
 		indexLed+=1;
-		indexLed%=NB_LEDS;
+		indexLed%=nbLeds;
 		ledStatus=true;
 		forceNextIteration();
 	}
@@ -153,7 +163,7 @@ bool M_neopixel::Callback()
 	
 	void M_neopixel::setIndexLed(uint8_t aLed)
 	{
-    indexLed=aLed%NB_LEDS;
+    indexLed=aLed%nbLeds;
   }
 	
 	uint8_t M_neopixel::getIndexLed()
@@ -174,7 +184,7 @@ bool M_neopixel::Callback()
 	void M_neopixel::startAnimSerpent(uint8_t startLed, uint16_t nbRun, uint16_t delayLed, CRGB color)
 	{
 		setInterval(delayLed);
-		setIterations(nbRun*NB_LEDS);
+		setIterations(nbRun*nbLeds);
 		forceNextIteration();
 		anim=ANIM_SERPENT;
 		animBlinkSerpent=color;
@@ -221,13 +231,13 @@ bool M_neopixel::Callback()
     {
       ledOn(animSerpentIndex, CRGB::Black);
       animSerpentIndex++;
-      animSerpentIndex%=NB_LEDS;
+      animSerpentIndex%=nbLeds;
       ledOn(animSerpentIndex, animBlinkSerpent);
     }
 
 	void M_neopixel::animSerrureBloquee()
 	{
-		for (int i=0;i<NB_LEDS;i++)
+		for (int i=0;i<nbLeds;i++)
 		{
 			if (ledStatus)
 			{
@@ -247,7 +257,7 @@ bool M_neopixel::Callback()
 
 	void M_neopixel::animSerrureErreur()
 	{
-		for (int i=0;i<NB_LEDS;i++)
+		for (int i=0;i<nbLeds;i++)
 		{
 			if (ledStatus)
 			{
