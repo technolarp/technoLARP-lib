@@ -21,4 +21,5 @@ class M_keypad
 	char getChar();
 	bool checkReset();
 	bool checkCombo(char touche1, char touche2, uint8_t flagIndex);
+	bool getUneFoisFlag(uint8_t index);
 };

@@ -21,7 +21,7 @@ M_neopixel::M_neopixel(Scheduler* aScheduler) : Task(TASK_MILLISECOND*100, TASK_
 
   animSerpentIndex=0;
   
-  anim=ANIM_BLINK;
+  anim=ANIM_NONE;
 }
 
 
@@ -106,6 +106,7 @@ bool M_neopixel::Callback()
 	void M_neopixel::OnDisable()
     {
       //Serial.println("task neopixel DISABLE");
+	  anim=ANIM_NONE;
 
       switch (anim) 
       {
@@ -271,4 +272,17 @@ bool M_neopixel::Callback()
 		FastLED.show();
 		
 		ledStatus=!ledStatus;
+	}
+	
+	
+	bool M_neopixel::isAnimActive()
+	{
+		if (anim==ANIM_NONE)
+		{
+			return(false);
+		}
+		else
+		{
+			return(true);
+		}
 	}

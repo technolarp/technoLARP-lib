@@ -20,14 +20,15 @@ class M_neopixel : public Task
 	bool ledStatus;
 	uint8_t indexLed;
 
-  uint8_t indexColor;
+	uint8_t indexColor;
   
-  enum {ANIM_BLINK, ANIM_SERPENT, ANIM_SERRURE_BLOQUEE, ANIM_SERRURE_ERREUR};
-  uint8_t anim;
-  CRGB animBlinkColor;
-  CRGB animBlinkSerpent;  
+	enum {ANIM_NONE, ANIM_BLINK, ANIM_SERPENT, ANIM_SERRURE_BLOQUEE, ANIM_SERRURE_ERREUR};
+	uint8_t anim;
+	
+	CRGB animBlinkColor;
+	CRGB animBlinkSerpent;  
 
-  uint8_t animSerpentIndex;
+	uint8_t animSerpentIndex;
       
   public:  
 	M_neopixel(Scheduler* aScheduler);
@@ -62,5 +63,7 @@ class M_neopixel : public Task
 	void animSerpent();
 	void animSerrureBloquee();
 	void animSerrureErreur();
+	
+	bool isAnimActive();
 
 };

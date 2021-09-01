@@ -84,4 +84,7 @@ bool M_keypad::checkCombo(char touche1, char touche2, uint8_t flagIndex)
 	return(checkFlag);
 }
 
-
+bool M_keypad::getUneFoisFlag(uint8_t index)
+{
+	return(uneFoisFlag[index]);
+}
