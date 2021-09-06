@@ -97,7 +97,9 @@ bool M_neopixel::Callback()
     
     bool M_neopixel::OnEnable()
     {
-      //Serial.println("task neopixel ENABLE");
+      // Serial.print("task neopixel ENABLE  ");
+	  // Serial.print(millis());
+      // Serial.println();
       allLedOff();
       return true;
      
@@ -105,21 +107,15 @@ bool M_neopixel::Callback()
     
 	void M_neopixel::OnDisable()
     {
-      //Serial.println("task neopixel DISABLE");
+      // Serial.print("task neopixel DISABLE  ");
+	  // Serial.print(millis());
+      // Serial.println();
 	  anim=ANIM_NONE;
 
       switch (anim) 
       {
         case ANIM_BLINK:
           // nothing to do
-        break;
-		
-        case ANIM_SERPENT:
-          //startAnimBlink();
-        break;
-		
-		case ANIM_SERRURE_BLOQUEE:
-			// nothing to do
         break;
 		
         default:
@@ -197,21 +193,23 @@ bool M_neopixel::Callback()
 	void M_neopixel::startAnimSerrureBloquee(uint16_t nbRun, uint16_t delaiBlink)
 	{
 		setInterval(delaiBlink);
-		setIterations(nbRun);
-		//forceNextIteration();
+		setIterations(nbRun+1);
+		
 		anim=ANIM_SERRURE_BLOQUEE;
 		
 		enableIfNot();
+		forceNextIteration();		
 	}
 	
 	void M_neopixel::startAnimSerrureErreur(uint16_t nbRun, uint16_t delaiBlink)
 	{
 		setInterval(delaiBlink);
-		setIterations(nbRun);
-		//forceNextIteration();
+		setIterations(nbRun+1);
+		
 		anim=ANIM_SERRURE_ERREUR;
 		
 		enableIfNot();
+		forceNextIteration();		
 	}
 
 	void M_neopixel::animBlink()

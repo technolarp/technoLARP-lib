@@ -31,9 +31,9 @@ void M_buzzer::shortBeep()
   setIterations(2);
 
   activeBuzzer=true;
-  forceNextIteration();
-  
+    
   enable();
+  forceNextIteration();
 }
 
 void M_buzzer::doubleBeep()
@@ -43,9 +43,9 @@ void M_buzzer::doubleBeep()
   setIterations(4);
 
   activeBuzzer=true;
-  forceNextIteration();
-  
+    
   enable();
+  forceNextIteration();
 }
 
 void M_buzzer::tripleBeep()
@@ -55,9 +55,9 @@ void M_buzzer::tripleBeep()
   setIterations(6);
 
   activeBuzzer=true;
-  forceNextIteration();
-  
+    
   enable();
+  forceNextIteration();
 }
 
 void M_buzzer::longBeep()
@@ -67,9 +67,9 @@ void M_buzzer::longBeep()
   setIterations(2);
 
   activeBuzzer=true;
-  forceNextIteration();
-  
+    
   enable();
+  forceNextIteration();
 }
 
 
