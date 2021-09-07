@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_MCP23017.h> // https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library
+//#include <Adafruit_MCP23017.h> // https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library
+#include <Adafruit_MCP23X17.h> // https://github.com/adafruit/Adafruit-MCP23017-Arduino-Library
 
 #define BOUTON_1 8
 #define BOUTON_2 9
@@ -15,7 +16,8 @@
 class M_mcp23017
 {
   private:
-	Adafruit_MCP23017 mcp;
+	//Adafruit_MCP23017 mcp;
+	Adafruit_MCP23X17 mcp;
   
 	// BUTTON STATE
 	int buttonState[8] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
