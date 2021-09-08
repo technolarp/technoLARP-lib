@@ -1,7 +1,7 @@
-#include "technolarp_neopixel.h"
+#include "technolarp_fastled.h"
 
 
-M_neopixel::M_neopixel(Scheduler* aScheduler) : Task(TASK_MILLISECOND*100, TASK_FOREVER, aScheduler, false)
+M_fastled::M_fastled(Scheduler* aScheduler) : Task(TASK_MILLISECOND*100, TASK_FOREVER, aScheduler, false)
 {
   // pour utiliser une led ws2811
   //FastLED.addLeds<WS2811, LED_DATA_PIN>(leds, NB_LEDS_MAX);
@@ -25,13 +25,13 @@ M_neopixel::M_neopixel(Scheduler* aScheduler) : Task(TASK_MILLISECOND*100, TASK_
 }
 
 
-void M_neopixel::ledOn(int cLed, CRGB cCouleur)
+void M_fastled::ledOn(int cLed, CRGB cCouleur)
 {
   leds[cLed] = cCouleur;
   FastLED.show();
 }
 
-void M_neopixel::allLedOn(CRGB cCouleur)
+void M_fastled::allLedOn(CRGB cCouleur)
 { 
   for (int i=0;i<nbLeds;i++)
   {
@@ -40,34 +40,34 @@ void M_neopixel::allLedOn(CRGB cCouleur)
   FastLED.show();
 }
 
-void M_neopixel::allLedOff()
+void M_fastled::allLedOff()
 {
   FastLED.clear();
   FastLED.show();
 }
 
-void M_neopixel::setLed(int cLed, CRGB cCouleur)
+void M_fastled::setLed(int cLed, CRGB cCouleur)
 {
   leds[cLed] = cCouleur;
 }
 
-void M_neopixel::ledShow()
+void M_fastled::ledShow()
 {
   FastLED.show();
 }
   
-void M_neopixel::setNbLed(uint8_t nbLedsInit)
+void M_fastled::setNbLed(uint8_t nbLedsInit)
 {
 	nbLeds = nbLedsInit;
 }
 
-uint8_t M_neopixel::getNbLed()
+uint8_t M_fastled::getNbLed()
 {
 	return(nbLeds);
 }
 
 	
-bool M_neopixel::Callback()
+bool M_fastled::Callback()
   {
     switch (anim) 
     {
@@ -95,7 +95,7 @@ bool M_neopixel::Callback()
     return true;
   }
     
-    bool M_neopixel::OnEnable()
+    bool M_fastled::OnEnable()
     {
       // Serial.print("task neopixel ENABLE  ");
 	  // Serial.print(millis());
@@ -105,7 +105,7 @@ bool M_neopixel::Callback()
      
     }
     
-	void M_neopixel::OnDisable()
+	void M_fastled::OnDisable()
     {
       // Serial.print("task neopixel DISABLE  ");
 	  // Serial.print(millis());
@@ -125,9 +125,9 @@ bool M_neopixel::Callback()
     }
     
 	
-	void M_neopixel::moveLed()
+	void M_fastled::moveLed()
 	{
-		M_neopixel::ledOn(indexLed,CRGB::Black);
+		M_fastled::ledOn(indexLed,CRGB::Black);
 		
 		indexLed+=1;
 		indexLed%=nbLeds;
@@ -135,7 +135,7 @@ bool M_neopixel::Callback()
 		forceNextIteration();
 	}
 
-  void M_neopixel::changeColor()
+  void M_fastled::changeColor()
   {
     indexColor++;
     indexColor%=3;
@@ -153,22 +153,22 @@ bool M_neopixel::Callback()
     }    
   }
   
-  void M_neopixel::changeColor(CRGB cCouleur)
+  void M_fastled::changeColor(CRGB cCouleur)
   {
     animBlinkColor=cCouleur;
   }
 	
-	void M_neopixel::setIndexLed(uint8_t aLed)
+	void M_fastled::setIndexLed(uint8_t aLed)
 	{
     indexLed=aLed%nbLeds;
   }
 	
-	uint8_t M_neopixel::getIndexLed()
+	uint8_t M_fastled::getIndexLed()
 	{
     return(indexLed);
   }
 
-  void M_neopixel::startAnimBlink()
+  void M_fastled::startAnimBlink()
   {
     setInterval(500);
     setIterations(TASK_FOREVER);
@@ -178,7 +178,7 @@ bool M_neopixel::Callback()
     enable();
   }
    
-	void M_neopixel::startAnimSerpent(uint8_t startLed, uint16_t nbRun, uint16_t delayLed, CRGB color)
+	void M_fastled::startAnimSerpent(uint8_t startLed, uint16_t nbRun, uint16_t delayLed, CRGB color)
 	{
 		setInterval(delayLed);
 		setIterations(nbRun*nbLeds);
@@ -190,7 +190,7 @@ bool M_neopixel::Callback()
 		enable();
 	}
   
-	void M_neopixel::startAnimSerrureBloquee(uint16_t nbRun, uint16_t delaiBlink)
+	void M_fastled::startAnimSerrureBloquee(uint16_t nbRun, uint16_t delaiBlink)
 	{
 		setInterval(delaiBlink);
 		setIterations(nbRun+1);
@@ -201,7 +201,7 @@ bool M_neopixel::Callback()
 		forceNextIteration();		
 	}
 	
-	void M_neopixel::startAnimSerrureErreur(uint16_t nbRun, uint16_t delaiBlink)
+	void M_fastled::startAnimSerrureErreur(uint16_t nbRun, uint16_t delaiBlink)
 	{
 		setInterval(delaiBlink);
 		setIterations(nbRun+1);
@@ -212,7 +212,7 @@ bool M_neopixel::Callback()
 		forceNextIteration();		
 	}
 
-	void M_neopixel::animBlink()
+	void M_fastled::animBlink()
     {
       if (ledStatus)
       {
@@ -226,7 +226,7 @@ bool M_neopixel::Callback()
       ledStatus=!ledStatus;
     }
   
-	void M_neopixel::animSerpent()
+	void M_fastled::animSerpent()
     {
       ledOn(animSerpentIndex, CRGB::Black);
       animSerpentIndex++;
@@ -234,7 +234,7 @@ bool M_neopixel::Callback()
       ledOn(animSerpentIndex, animBlinkSerpent);
     }
 
-	void M_neopixel::animSerrureBloquee()
+	void M_fastled::animSerrureBloquee()
 	{
 		for (int i=0;i<nbLeds;i++)
 		{
@@ -254,7 +254,7 @@ bool M_neopixel::Callback()
 	
 	
 
-	void M_neopixel::animSerrureErreur()
+	void M_fastled::animSerrureErreur()
 	{
 		for (int i=0;i<nbLeds;i++)
 		{
@@ -273,7 +273,7 @@ bool M_neopixel::Callback()
 	}
 	
 	
-	bool M_neopixel::isAnimActive()
+	bool M_fastled::isAnimActive()
 	{
 		if (anim==ANIM_NONE)
 		{

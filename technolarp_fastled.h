@@ -1,4 +1,4 @@
-#include <FastLED.h>  // https://github.com/FastLED/FastLED
+#include <FastLED.h>  // https://github.com/FastLED/FastLED  // VERSION 3.4.0
 
 #define FASTLED_INTERRUPT_RETRY_COUNT 0
 #define FASTLED_ALLOW_INTERRUPTS 0
@@ -9,13 +9,12 @@
 #define _TASK_OO_CALLBACKS
 #include <TaskSchedulerDeclarations.h>
 
-class M_neopixel : public Task
+class M_fastled : public Task
 {
   private:
 	uint8_t nbLeds;
 	
-	// tableau de leds neopixel
-	CRGB leds[NB_LEDS_MAX];
+	
 	
 	bool ledStatus;
 	uint8_t indexLed;
@@ -31,7 +30,10 @@ class M_neopixel : public Task
 	uint8_t animSerpentIndex;
       
   public:  
-	M_neopixel(Scheduler* aScheduler);
+	M_fastled(Scheduler* aScheduler);
+	
+	// tableau de leds neopixel
+	CRGB leds[NB_LEDS_MAX];
 
 	bool Callback();
 	bool OnEnable();
