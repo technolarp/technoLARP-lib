@@ -19,7 +19,7 @@ class M_keypad
 	M_keypad();
 	
 	char getChar();
-	bool checkReset();
+	bool checkReset(char toCheck);
 	bool checkCombo(char touche1, char touche2, uint8_t flagIndex);
 	bool getUneFoisFlag(uint8_t index);
 };

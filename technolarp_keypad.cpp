@@ -37,13 +37,13 @@ char M_keypad::getChar()
 	return(customKeypad.getKey());
 }
 
-bool M_keypad::checkReset()
+bool M_keypad::checkReset(char toCheck)
 {
 	bool checkFlag = false;
 	
 	customKeypad.getKeys();
     
-    int indexStar = customKeypad.findInList('*');
+    int indexStar = customKeypad.findInList(toCheck);
 	
 	if (indexStar>=0)
 	{
