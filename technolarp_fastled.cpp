@@ -66,6 +66,15 @@ uint8_t M_fastled::getNbLed()
 	return(nbLeds);
 }
 
+uint8_t M_fastled::getNbMaxLed()
+{
+	return(NB_LEDS_MAX);
+}
+
+void M_fastled::setBrightness(uint8_t newBrightness)
+{
+	FastLED.setBrightness(newBrightness);
+}
 	
 bool M_fastled::Callback()
   {

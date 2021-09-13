@@ -45,6 +45,8 @@ class M_fastled : public Task
 	
 	void setNbLed(uint8_t nbLedsInit);
 	uint8_t getNbLed();
+	uint8_t getNbMaxLed();
+	void setBrightness(uint8_t newBrightness);
 	
 	void setLed(int cLed, CRGB cCouleur);
 	void ledShow();
