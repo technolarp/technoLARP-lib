@@ -58,7 +58,7 @@ class M_fastled : public Task
 	void setIndexLed(uint8_t aLed);
 	uint8_t getIndexLed();
 
-	void startAnimBlink();
+	void startAnimBlink(uint16_t nbRun, uint16_t delaiBlink, CRGB color, uint8_t nbLed);
 	void startAnimSerpent(uint8_t startLed, uint16_t nbRun, uint16_t delayLed, CRGB color);
 	void startAnimSerrureBloquee(uint16_t nbRun, uint16_t delaiBlink);
 	void startAnimSerrureErreur(uint16_t nbRun, uint16_t delaiBlink);

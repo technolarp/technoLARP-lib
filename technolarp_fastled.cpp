@@ -177,10 +177,12 @@ bool M_fastled::Callback()
     return(indexLed);
   }
 
-  void M_fastled::startAnimBlink()
+  void M_fastled::startAnimBlink(uint16_t nbRun, uint16_t delaiBlink, CRGB color, uint8_t nbLed)
   {
-    setInterval(500);
-    setIterations(TASK_FOREVER);
+    setInterval(delaiBlink);
+    setIterations(nbRun);
+	animBlinkColor=color;
+	indexLed=nbLed;
     forceNextIteration();
     anim=ANIM_BLINK;
     
@@ -223,16 +225,20 @@ bool M_fastled::Callback()
 
 	void M_fastled::animBlink()
     {
-      if (ledStatus)
-      {
-        ledOn(indexLed, animBlinkColor);
-      }
-      else
-      {
-        ledOn(indexLed, CRGB::Black);
-      }
-
-      ledStatus=!ledStatus;
+		for (int i=0;i<indexLed;i++)
+		{
+			if (ledStatus)
+			{
+				setLed(i, animBlinkColor);
+			}
+			else
+			{
+				setLed(i, CRGB::Black);
+			}
+		}
+		
+		ledShow();
+		ledStatus=!ledStatus;
     }
   
 	void M_fastled::animSerpent()
