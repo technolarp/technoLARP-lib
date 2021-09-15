@@ -75,6 +75,11 @@ void M_fastled::setBrightness(uint8_t newBrightness)
 {
 	FastLED.setBrightness(newBrightness);
 }
+
+void M_fastled::setAnim(uint8_t anim)
+{
+	anim=anim;
+}
 	
 bool M_fastled::Callback()
   {
