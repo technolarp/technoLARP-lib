@@ -7,9 +7,21 @@
 class M_7segment
 {
   private:
+	bool blinkDoublePoint;
+	bool blinkAffichage;
+	bool blinkMinutesOuSecondes;
 	
   public:  
 	M_7segment();
 	
 	void showDecimal(uint16_t aDecimal, bool leadingZero);
+	void setDoublePoint(bool toSet);
+	bool getDoublePoint();
+	
+	void showTempsRestant(int16_t tempsRestant);
+	
+	void setBlinkAffichage(bool toSet);
+	bool getBlinkAffichage();
+	void setBlinkMinutesOuSecondes(bool toSet);
+	bool getBlinkMinutesOuSecondes();
 };

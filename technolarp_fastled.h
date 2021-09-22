@@ -1,7 +1,7 @@
 #include <FastLED.h>  // https://github.com/FastLED/FastLED  // VERSION 3.4.0
 
-#define FASTLED_INTERRUPT_RETRY_COUNT 0
-#define FASTLED_ALLOW_INTERRUPTS 0
+#define FASTLED_INTERRUPT_RETRY_COUNT 1
+#define FASTLED_ALLOW_INTERRUPTS 1
 
 #define NB_LEDS_MAX 50
 #define LED_DATA_PIN D0
@@ -13,8 +13,6 @@ class M_fastled : public Task
 {
   private:
 	uint8_t nbLeds;
-	
-	
 	
 	bool ledStatus;
 	uint8_t indexLed;

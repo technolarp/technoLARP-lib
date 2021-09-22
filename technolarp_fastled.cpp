@@ -121,12 +121,13 @@ bool M_fastled::Callback()
     
 	void M_fastled::OnDisable()
     {
-      // Serial.print("task neopixel DISABLE  ");
+      //Serial.print("task neopixel DISABLE  ");
 	  // Serial.print(millis());
-      // Serial.println();
+      //Serial.println();
 	  anim=ANIM_NONE;
 
-      switch (anim) 
+      /*
+	  switch (anim) 
       {
         case ANIM_BLINK:
           // nothing to do
@@ -136,6 +137,7 @@ bool M_fastled::Callback()
           // nothing to do
         break;
       }
+	  */
     }
     
 	
