@@ -82,3 +82,35 @@ void M_7segment::showTempsRestant(int16_t tempsRestant)
   
   display_7seg.setSegments(data);
 }
+
+
+void M_7segment::showExplosion()
+{
+  uint8_t SEG_VIDE[] = {0x00, 0x00, 0x00, 0x00};
+  uint8_t SEG_BOOM[] = {0x7C, 0x5C, 0x5C, 0x54}; // b, o, o, n
+	
+  if (blinkAffichage)
+  {
+	display_7seg.setSegments(SEG_BOOM, 4, 0);
+  }
+  else
+  {
+	display_7seg.setSegments(SEG_VIDE, 4, 0);
+  }
+}
+
+void M_7segment::showExplosee()
+{
+  // la bombe a deja explosee
+  // afficher "- - - -" sur le 4*7segment
+  uint8_t SEG_EXPLOSEE[] = {SEG_G, SEG_G, SEG_G, SEG_G};
+  display_7seg.setSegments(SEG_EXPLOSEE);
+}
+
+void M_7segment::showSafe()
+{
+  // la bombe a deja explosee
+  // afficher "S A F E" sur le 4*7segment
+  uint8_t SEG_SAFE[] = {0x6D, 0x77, 0x71, 0x79};
+  display_7seg.setSegments(SEG_SAFE);
+}

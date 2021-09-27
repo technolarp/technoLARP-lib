@@ -20,6 +20,10 @@ class M_7segment
 	
 	void showTempsRestant(int16_t tempsRestant);
 	
+	void showExplosion();
+	void showExplosee();
+	void showSafe();
+	
 	void setBlinkAffichage(bool toSet);
 	bool getBlinkAffichage();
 	void setBlinkMinutesOuSecondes(bool toSet);

@@ -24,6 +24,18 @@ void M_buzzer::buzzerOff()
   digitalWrite(buzzerPin, LOW);
 }
 
+void M_buzzer::beep(uint16_t freq, uint16_t interval, uint16_t iterations)
+{
+  frequency=freq;
+  setInterval(interval);
+  setIterations(iterations);
+
+  activeBuzzer=true;
+    
+  enable();
+  forceNextIteration();
+}
+
 void M_buzzer::shortBeep()
 {
   frequency=1000;

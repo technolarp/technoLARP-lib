@@ -23,6 +23,7 @@ class M_buzzer : public Task
   void doubleBeep();
   void tripleBeep();
   void longBeep();
+  void beep(uint16_t freq, uint16_t interval, uint16_t iterations);
   
   bool Callback();
   bool OnEnable();
