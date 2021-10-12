@@ -20,16 +20,20 @@ class M_mcp23017
 	Adafruit_MCP23X17 mcp;
   
 	// BUTTON STATE
-	int buttonState[8] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
-	int lastButtonState[8] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
+	int buttonState[16] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH,HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
+	int lastButtonState[16] = {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH,HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH};
 
-	unsigned long lastDebounceTime[8] = {0,0,0,0,0,0,0,0};
-	unsigned long debounceDelay = 20;
+	unsigned long lastDebounceTime[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	uint16_t debounceDelay = 50;
 
       
   public:  
 	M_mcp23017(uint8_t mcpAddress);
 	
 	bool checkButton(uint8_t button);
+	bool checkPin(uint8_t pin);
 	bool readPin(uint8_t pin);
+	
+	uint16_t getDebounceDelay();
+	void setDebounceDelay(uint16_t toSet);
 };
