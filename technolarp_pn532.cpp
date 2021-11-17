@@ -7,6 +7,7 @@ NfcAdapter nfc = NfcAdapter(pn532_i2c);
 M_pn532::M_pn532()
 {
   Serial.println("init RFID");
+  delay(500);
   nfc.begin();
   Serial.println("NDEF Ready");
   
@@ -28,7 +29,12 @@ bool M_pn532::readUID(uint16_t timeout)
 	{
 		if (nfc.tagPresent(timeout))
 		{
+			ESP.wdtDisable();
 			NfcTag tag = nfc.read();
+			ESP.wdtEnable(2000);
+			
+			Serial.print("uid length: ");
+			Serial.println(tag.getUidLength());
 			
 			tagPresent=true;
 			previousMillisTagPresent=millis();
@@ -69,7 +75,7 @@ void M_pn532::updateRFID()
       if (!readingRFID)
       {
         readingRFID=true;
-       //Serial.println("activate RFID reading");
+        //Serial.println("activate RFID reading");
       }
     }
     
