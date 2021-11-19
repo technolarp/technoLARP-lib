@@ -16,13 +16,12 @@
 class M_oled
 {
   private:
-	
-	
 	bool screenDirty = true;
 	
   public:  
 	M_oled();
 	
+	void beginOled();
 	void showDecimal();
 	void displayText(String texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf);
 };
