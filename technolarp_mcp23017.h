@@ -28,7 +28,10 @@ class M_mcp23017
 
       
   public:  
+	M_mcp23017();
 	M_mcp23017(uint8_t mcpAddress);
+	
+	void beginMcp23017(uint8_t mcpAddress);
 	
 	bool checkButton(uint8_t button);
 	bool checkPin(uint8_t pin);

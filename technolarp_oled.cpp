@@ -33,6 +33,20 @@ void M_oled::showDecimal()
 
 void M_oled::displayText(String texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf)
 {
+  displayText(texteAAfficher, taillePolice, videEcran, changementEcran, centered, crlf, false);
+}
+
+void M_oled::displayText(String texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf, bool inverted)
+{
+  if (inverted)
+  {
+	  display_oled.setTextColor(SSD1306_BLACK, SSD1306_WHITE);
+  }
+  else
+  {
+	  display_oled.setTextColor(SSD1306_WHITE, SSD1306_BLACK);
+  }
+  
   if (videEcran)
   {
     display_oled.clearDisplay();
@@ -70,3 +84,26 @@ void M_oled::displayText(String texteAAfficher, int taillePolice, bool videEcran
     display_oled.display();
   }
 }
+
+
+void M_oled::displayRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h)
+{
+	display_oled.drawRect(x0, y0, w, h, SSD1306_WHITE);
+}
+
+void M_oled::displayFillRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h)
+{
+	display_oled.fillRect(x0, y0, w, h, SSD1306_WHITE);
+}
+
+void M_oled::display()
+{
+	display_oled.display();
+}
+
+void M_oled::clearDisplay()
+{
+	display_oled.clearDisplay();
+    display_oled.setCursor(0, 0);
+}
+

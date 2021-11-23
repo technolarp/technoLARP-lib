@@ -24,4 +24,11 @@ class M_oled
 	void beginOled();
 	void showDecimal();
 	void displayText(String texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf);
+	void displayText(String texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf, bool inverted);
+	
+	void display();
+	void clearDisplay();
+	
+	void displayRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h);
+	void displayFillRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h);
 };
