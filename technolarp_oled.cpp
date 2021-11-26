@@ -107,3 +107,12 @@ void M_oled::clearDisplay()
     display_oled.setCursor(0, 0);
 }
 
+void M_oled::displayCircle(uint16_t x0, uint16_t y0, uint16_t r)
+{
+	display_oled.drawCircle(x0, y0, r, SSD1306_WHITE);
+}
+
+void M_oled::displayFillCircle(uint16_t x0, uint16_t y0, uint16_t r)
+{
+	display_oled.fillCircle(x0, y0, r, SSD1306_WHITE);
+}
