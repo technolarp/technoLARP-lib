@@ -1,9 +1,8 @@
 #include "technolarp_fastled.h"
 
-
-M_fastled::M_fastled(Scheduler* aScheduler) : Task(TASK_MILLISECOND*100, TASK_FOREVER, aScheduler, false)
+M_fastled::M_fastled()
 {
-  // pour utiliser une led ws2811
+	// pour utiliser une led ws2811
   //FastLED.addLeds<WS2811, LED_DATA_PIN>(leds, NB_LEDS_MAX);
   // pour utiliser une led adafruit neopixel
   FastLED.addLeds<NEOPIXEL, LED_DATA_PIN>(leds, NB_LEDS_MAX);
@@ -12,53 +11,55 @@ M_fastled::M_fastled(Scheduler* aScheduler) : Task(TASK_MILLISECOND*100, TASK_FO
   nbLeds=8;
   
   ledStatus=true;
-  indexLed=0;
 
-  indexColor=0;
-  
-  animBlinkColor=CRGB::Blue;
-  animBlinkSerpent=CRGB::Red;
-
-  animSerpentIndex=0;
-  
-  anim=ANIM_NONE;
 }
 
-
-void M_fastled::ledOn(int cLed, CRGB cCouleur)
+void M_fastled::ledOn(uint8_t ledToSet, CRGB colorToSet, bool change)
 {
-  leds[cLed] = cCouleur;
-  FastLED.show();
+	leds[ledToSet]=colorToSet;
+
+	if (change)
+	{
+		FastLED.show();
+	}
 }
 
-void M_fastled::allLedOn(CRGB cCouleur)
-{ 
-  for (int i=0;i<nbLeds;i++)
-  {
-    leds[i] = cCouleur;
-  }
-  FastLED.show();
+void M_fastled::allLedOn(CRGB colorToSet, bool change)
+{
+	for (uint8_t i=0;i<nbLeds;i++)
+	{
+		ledOn(i, colorToSet, false);
+	}
+	if (change)
+	{
+		FastLED.show();
+	}
+}
+
+void M_fastled::ledOff(uint8_t ledToSet, bool change)
+{
+	ledOn(ledToSet, CRGB::Black, change);
 }
 
 void M_fastled::allLedOff()
 {
-  FastLED.clear();
-  FastLED.show();
+	allLedOff(true);
 }
 
-void M_fastled::setLed(int cLed, CRGB cCouleur)
+void M_fastled::allLedOff(bool change)
 {
-  leds[cLed] = cCouleur;
+	FastLED.clear();
+	
+	if (change)
+	{
+		FastLED.show();
+	}
 }
 
-void M_fastled::ledShow()
-{
-  FastLED.show();
-}
-  
+
 void M_fastled::setNbLed(uint8_t nbLedsInit)
 {
-	nbLeds = nbLedsInit;
+	nbLeds=nbLedsInit;
 }
 
 uint8_t M_fastled::getNbLed()
@@ -66,10 +67,21 @@ uint8_t M_fastled::getNbLed()
 	return(nbLeds);
 }
 
-uint8_t M_fastled::getNbMaxLed()
+void M_fastled::setBrightness(uint8_t newBrightness)
 {
-	return(NB_LEDS_MAX);
+	FastLED.setBrightness(newBrightness);
 }
+
+void M_fastled::ledShow()
+{
+	FastLED.show();
+}
+
+
+
+
+/*
+
 
 void M_fastled::setBrightness(uint8_t newBrightness)
 {
@@ -126,18 +138,7 @@ bool M_fastled::Callback()
       //Serial.println();
 	  anim=ANIM_NONE;
 
-      /*
-	  switch (anim) 
-      {
-        case ANIM_BLINK:
-          // nothing to do
-        break;
-		
-        default:
-          // nothing to do
-        break;
-      }
-	  */
+      
     }
     
 	
@@ -306,3 +307,4 @@ bool M_fastled::Callback()
 			return(true);
 		}
 	}
+	*/

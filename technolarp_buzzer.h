@@ -1,31 +1,31 @@
 #include <Arduino.h>
 
-#define _TASK_OO_CALLBACKS
-#include <TaskSchedulerDeclarations.h>
-
-class M_buzzer : public Task
+class M_buzzer
 {
   private:
-  uint16_t buzzerPin;
-  bool activeBuzzer;
+  uint8_t buzzerPin;
+  
+  bool buzzerActif;
+  bool statutBuzzer;
+  uint16_t iterations;
   uint16_t frequency;
-  //unsigned long int startBeep;
-
+  
+  uint16_t interval;
+  uint32_t previousMillis;
   
   
   public:  
-  M_buzzer(int buzzerPinSet, Scheduler* aScheduler);
+  M_buzzer(uint8_t buzzerPinSet);
+  
+  void update();
   
   void buzzerOn(uint16_t frequency);
+  void buzzerOn();
   void buzzerOff();
   
   void shortBeep();
   void doubleBeep();
   void tripleBeep();
   void longBeep();
-  void beep(uint16_t freq, uint16_t interval, uint16_t iterations);
-  
-  bool Callback();
-  bool OnEnable();
-  void OnDisable();  
+  //void beep(uint16_t freq, uint16_t interval, uint16_t iterations);
 };

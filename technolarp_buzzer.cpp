@@ -1,115 +1,119 @@
 #include "technolarp_buzzer.h"
 
-M_buzzer::M_buzzer(int buzzerPinSet, Scheduler* aScheduler) : Task(TASK_MILLISECOND*1000, TASK_FOREVER, aScheduler, false)
+M_buzzer::M_buzzer(uint8_t buzzerPinSet)
 {
 	buzzerPin = buzzerPinSet;
+	buzzerActif = false;
+    statutBuzzer = false;
+	iterations = 0;
+	interval = 0;
+  
+	frequency = 1000;
+	previousMillis = 0;
 	
 	pinMode(buzzerPin, OUTPUT);
 	digitalWrite(buzzerPin, LOW);
-
-  activeBuzzer=false;
-  frequency=1000;
-  //unsigned long int startBeep = 0;
 }
 
-void M_buzzer::buzzerOn(uint16_t frequency)
+
+void M_buzzer::update()
 {
-  analogWrite(buzzerPin, frequency);
+	if (buzzerActif)
+	{
+		if(millis() - previousMillis > interval)
+		{
+			previousMillis = millis();
+			statutBuzzer = !statutBuzzer;
+			
+			if (statutBuzzer)
+			{
+				buzzerOn();
+			}
+			else
+			{
+				buzzerOff();
+			}
+			
+			if (iterations>0)
+			{
+				iterations-=1;
+			}
+			
+			if (iterations==0)
+			{
+				buzzerActif = false;
+			}
+		}
+	}
+}
+
+void M_buzzer::buzzerOn(uint16_t newFrequency)
+{
+	frequency = newFrequency;
+	analogWrite(buzzerPin, frequency);
+	previousMillis = millis();
+	//Serial.println(F("buzzer ON"));
+}
+
+void M_buzzer::buzzerOn()
+{
+	analogWrite(buzzerPin, frequency);
+	previousMillis = millis();
+	//Serial.println(F("buzzer ON"));
 }
 
 void M_buzzer::buzzerOff()
 {
-  analogWrite(buzzerPin, 0);
-  pinMode(buzzerPin, OUTPUT);
-  digitalWrite(buzzerPin, LOW);
-}
-
-void M_buzzer::beep(uint16_t freq, uint16_t interval, uint16_t iterations)
-{
-  frequency=freq;
-  setInterval(interval);
-  setIterations(iterations);
-
-  activeBuzzer=true;
-    
-  enable();
-  forceNextIteration();
+	analogWrite(buzzerPin, 0);
+	pinMode(buzzerPin, OUTPUT);
+	digitalWrite(buzzerPin, LOW);
+	//Serial.println(F("buzzer OFF"));
 }
 
 void M_buzzer::shortBeep()
 {
-  frequency=1000;
-  setInterval(50);
-  setIterations(2);
-
-  activeBuzzer=true;
-    
-  enable();
-  forceNextIteration();
+	statutBuzzer = true;
+	buzzerActif = true;
+	
+	frequency = 1000;
+	iterations = 1;
+	interval = 50;
+	
+	buzzerOn();
 }
 
 void M_buzzer::doubleBeep()
 {
-  frequency=1000;
-  setInterval(50);
-  setIterations(4);
-
-  activeBuzzer=true;
-    
-  enable();
-  forceNextIteration();
+	statutBuzzer = true;
+	buzzerActif = true;
+	
+	frequency = 1000;
+	iterations = 3;
+	interval = 50;
+	
+	buzzerOn();
 }
 
 void M_buzzer::tripleBeep()
 {
-  frequency=800;
-  setInterval(100);
-  setIterations(6);
-
-  activeBuzzer=true;
-    
-  enable();
-  forceNextIteration();
+	statutBuzzer = true;
+	buzzerActif = true;
+	
+	frequency = 1000;
+	iterations = 5;
+	interval = 100;
+	
+	buzzerOn();
 }
 
 void M_buzzer::longBeep()
 {
-  frequency=500;
-  setInterval(400);
-  setIterations(2);
-
-  activeBuzzer=true;
-    
-  enable();
-  forceNextIteration();
-}
-
-
-bool M_buzzer::Callback()
-{
-  //Serial.print("callback beep: ");
-  //Serial.println(activeBuzzer);
-
-  if (activeBuzzer)
-  {
-    buzzerOn(frequency);
-  }
-  else
-  {
-    buzzerOff();
-  }
-  activeBuzzer=!activeBuzzer;
-  return true;
-}
-
-bool M_buzzer::OnEnable()
-{
-  //Serial.println("shortbeep enable");
-  return true;
-}
-
-void M_buzzer::OnDisable()
-{
-  //Serial.println("shortbeep disable: ");
-  //Serial.println(millis()-startBeep);
+	statutBuzzer = true;
+	buzzerActif = true;
+	
+	frequency = 500;
+	iterations = 1;
+	interval = 400;
+	
+	buzzerOn();
 }
