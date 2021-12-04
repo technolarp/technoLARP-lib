@@ -1,6 +1,7 @@
 #include <FastLED.h>  // https://github.com/FastLED/FastLED  // VERSION 3.4.0
 
 #define NB_LEDS_MAX 50
+#define NB_COULEURS_MAX 5
 #define LED_DATA_PIN D0
 
 class M_fastled
@@ -8,19 +9,19 @@ class M_fastled
   private:
 	uint8_t nbLeds;
 	
+	bool animationActive;
 	bool ledStatus;
+	uint16_t iterations;
 	
-	//uint8_t indexLed;
-
-	//uint8_t indexColor;
-  
-	//enum {ANIM_NONE, ANIM_BLINK, ANIM_SERPENT, ANIM_SERRURE_BLOQUEE, ANIM_SERRURE_ERREUR};
-	//uint8_t anim;
+	uint16_t interval;
+	uint32_t previousMillis;
 	
-	//CRGB animBlinkColor;
-	//CRGB animBlinkSerpent;  
-
-	//uint8_t animSerpentIndex;
+	CRGB couleurs[NB_COULEURS_MAX];
+	
+	enum {ANIM_NONE, ANIM_BLINK, ANIM_SERPENT};
+	uint8_t animActuelle;
+	
+	uint8_t indexLed;
       
   public:  
 	M_fastled();
@@ -41,27 +42,21 @@ class M_fastled
 	
 	void ledShow();
 	
-	//void setAnim(uint8_t anim);
-			
-	//void moveLed();
-	//void changeColor();
-	//void changeColor(CRGB cCouleur);
- 
-	//void setIndexLed(uint8_t aLed);
-	//uint8_t getIndexLed();
-
-	/*
-	void startAnimBlink(uint16_t nbRun, uint16_t delaiBlink, CRGB color, uint8_t nbLed);
-	void startAnimSerpent(uint8_t startLed, uint16_t nbRun, uint16_t delayLed, CRGB color);
-	void startAnimSerrureBloquee(uint16_t nbRun, uint16_t delaiBlink);
-	void startAnimSerrureErreur(uint16_t nbRun, uint16_t delaiBlink);
-
-	void animBlink();
-	void animSerpent();
-	void animSerrureBloquee();
-	void animSerrureErreur();
+	void updateAnimation();
+	void switchAnim(uint8_t anim);
+	void switchAnimEnd(uint8_t anim);
+	
+	void animationDepart(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1);
+	
+	void animationBlink01Start(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1, CRGB colorToSet2);
+	void animationBlink02Start(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2);
+	void animationBlink();
+	void animationBlinkEnd();
+	
+	void animationSerpentStart(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1, CRGB colorToSet2);
+	void animationSerpent();
+	void animationSerpentEnd();	
+	
 	
 	bool isAnimActive();
-	*/
-
 };

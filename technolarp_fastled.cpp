@@ -3,15 +3,28 @@
 M_fastled::M_fastled()
 {
 	// pour utiliser une led ws2811
-  //FastLED.addLeds<WS2811, LED_DATA_PIN>(leds, NB_LEDS_MAX);
-  // pour utiliser une led adafruit neopixel
-  FastLED.addLeds<NEOPIXEL, LED_DATA_PIN>(leds, NB_LEDS_MAX);
-  FastLED.setBrightness(50);
-  
-  nbLeds=8;
-  
-  ledStatus=true;
-
+	//FastLED.addLeds<WS2811, LED_DATA_PIN>(leds, NB_LEDS_MAX);
+	// pour utiliser une led adafruit neopixel
+	FastLED.addLeds<NEOPIXEL, LED_DATA_PIN>(leds, NB_LEDS_MAX);
+	FastLED.setBrightness(50);
+	
+	nbLeds=8;
+	
+	animationActive=false;
+	ledStatus=true;
+	iterations = 0;
+	
+	interval = 100;
+	previousMillis = 0;
+	
+	indexLed = 0;
+	
+	for (uint8_t i=0;i<NB_COULEURS_MAX;i++)
+	{
+		couleurs[i]=CRGB::Green;
+	}
+	
+	animActuelle = ANIM_NONE;
 }
 
 void M_fastled::ledOn(uint8_t ledToSet, CRGB colorToSet, bool change)
@@ -77,234 +90,164 @@ void M_fastled::ledShow()
 	FastLED.show();
 }
 
-
-
-
-/*
-
-
-void M_fastled::setBrightness(uint8_t newBrightness)
+void M_fastled::updateAnimation()
 {
-	FastLED.setBrightness(newBrightness);
+	if (animationActive)
+	{
+		if(millis() - previousMillis > interval)
+		{
+			previousMillis = millis();
+			ledStatus = !ledStatus;
+			
+			switchAnim(animActuelle);
+			
+			if (iterations>0)
+			{
+				iterations-=1;
+			}
+			
+			if (iterations==0)
+			{
+				animationActive = false;
+				switchAnimEnd(animActuelle);
+				animActuelle = ANIM_NONE;
+			}
+		}
+	}
 }
 
-void M_fastled::setAnim(uint8_t anim)
+void M_fastled::animationDepart(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1)
 {
-	anim=anim;
-}
+	indexLed = 0;
+	interval = intervalToSet;
+	couleurs[0] = colorToSet1;
 	
-bool M_fastled::Callback()
-  {
-    switch (anim) 
+	for (uint8_t i = 0; i < iterationToSet; i++)
+	{
+		ledOn(i, couleurs[0], true);
+		delay(intervalToSet);
+		ledOff(i, true);
+	}
+	allLedOff();
+}
+
+void M_fastled::animationBlinkEnd()
+{
+	allLedOff();
+}
+
+void M_fastled::animationBlink()
+{
+	if (ledStatus)
+	{
+		allLedOn(couleurs[0], true);
+	}
+	else
+	{
+		allLedOn(couleurs[1], true);
+	}
+}
+
+void M_fastled::animationBlink01Start(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1, CRGB colorToSet2)
+{
+	animActuelle = ANIM_BLINK;
+	animationActive=true;
+	ledStatus=true;
+	iterations = iterationToSet;
+	
+	interval = intervalToSet;
+	couleurs[0] = colorToSet1;
+	couleurs[1] = colorToSet2;
+	previousMillis = millis();
+}
+
+void M_fastled::animationBlink02Start(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2)
+{
+	animActuelle = ANIM_BLINK;
+	animationActive=true;
+	ledStatus=true;
+	
+	iterations = dureeToSet/intervalToSet;
+	
+	interval = intervalToSet;
+	couleurs[0] = colorToSet1;
+	couleurs[1] = colorToSet2;
+	previousMillis = millis();
+}
+
+void M_fastled::animationSerpentEnd()
+{
+	allLedOff();
+}
+
+void M_fastled::animationSerpent()
+{
+	ledOn(indexLed, couleurs[1], false);
+	indexLed+=1;
+	indexLed%=nbLeds;
+	ledOn(indexLed, couleurs[0], true);
+}
+
+void M_fastled::animationSerpentStart(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2)
+{
+	animActuelle = ANIM_SERPENT;
+	animationActive=true;
+	indexLed = 0;
+	
+	iterations = dureeToSet/intervalToSet;
+	
+	interval = intervalToSet;
+	couleurs[0] = colorToSet1;
+	couleurs[1] = colorToSet2;
+	allLedOn(couleurs[1], true);
+	previousMillis = millis();
+}
+
+
+bool M_fastled::isAnimActive()
+{
+	if (animActuelle == ANIM_NONE)
+	{
+		return(false);
+	}
+	else
+	{
+		return(true);
+	}
+}
+
+void M_fastled::switchAnim(uint8_t anim)
+{
+	switch (anim) 
     {
       case ANIM_BLINK:
-        animBlink();
+        animationBlink();
       break;
 	  
-      case ANIM_SERPENT:
-        animSerpent();
-      break;
-	  
-	  case ANIM_SERRURE_BLOQUEE:
-        animSerrureBloquee();
-      break;
-	  
-	  case ANIM_SERRURE_ERREUR:
-        animSerrureErreur();
+	  case ANIM_SERPENT:
+        animationSerpent();
       break;
 	  
       default:
         // nothing to do
       break;
     }
-    
-    return true;
-  }
-    
-    bool M_fastled::OnEnable()
-    {
-      // Serial.print("task neopixel ENABLE  ");
-	  // Serial.print(millis());
-      // Serial.println();
-      allLedOff();
-      return true;
-     
-    }
-    
-	void M_fastled::OnDisable()
-    {
-      //Serial.print("task neopixel DISABLE  ");
-	  // Serial.print(millis());
-      //Serial.println();
-	  anim=ANIM_NONE;
+}
 
-      
-    }
-    
-	
-	void M_fastled::moveLed()
-	{
-		M_fastled::ledOn(indexLed,CRGB::Black);
-		
-		indexLed+=1;
-		indexLed%=nbLeds;
-		ledStatus=true;
-		forceNextIteration();
-	}
-
-  void M_fastled::changeColor()
-  {
-    indexColor++;
-    indexColor%=3;
-    if (indexColor==0)
+void M_fastled::switchAnimEnd(uint8_t anim)
+{
+	switch (anim) 
     {
-      animBlinkColor=CRGB::Red;
+      case ANIM_BLINK:
+        animationBlinkEnd();
+      break;
+	  
+	  case ANIM_SERPENT:
+        animationSerpentEnd();
+      break;
+	  
+      default:
+        // nothing to do
+      break;
     }
-    else if (indexColor==1)
-    {
-      animBlinkColor=CRGB::Green;
-    }
-    else
-    {
-      animBlinkColor=CRGB::Blue;
-    }    
-  }
-  
-  void M_fastled::changeColor(CRGB cCouleur)
-  {
-    animBlinkColor=cCouleur;
-  }
-	
-	void M_fastled::setIndexLed(uint8_t aLed)
-	{
-    indexLed=aLed%nbLeds;
-  }
-	
-	uint8_t M_fastled::getIndexLed()
-	{
-    return(indexLed);
-  }
-
-  void M_fastled::startAnimBlink(uint16_t nbRun, uint16_t delaiBlink, CRGB color, uint8_t nbLed)
-  {
-    setInterval(delaiBlink);
-    setIterations(nbRun);
-	animBlinkColor=color;
-	indexLed=nbLed;
-    forceNextIteration();
-    anim=ANIM_BLINK;
-    
-    enable();
-  }
-   
-	void M_fastled::startAnimSerpent(uint8_t startLed, uint16_t nbRun, uint16_t delayLed, CRGB color)
-	{
-		setInterval(delayLed);
-		setIterations(nbRun*nbLeds);
-		forceNextIteration();
-		anim=ANIM_SERPENT;
-		animBlinkSerpent=color;
-		animSerpentIndex=startLed;
-		
-		enable();
-	}
-  
-	void M_fastled::startAnimSerrureBloquee(uint16_t nbRun, uint16_t delaiBlink)
-	{
-		setInterval(delaiBlink);
-		setIterations(nbRun+1);
-		
-		anim=ANIM_SERRURE_BLOQUEE;
-		
-		enableIfNot();
-		forceNextIteration();		
-	}
-	
-	void M_fastled::startAnimSerrureErreur(uint16_t nbRun, uint16_t delaiBlink)
-	{
-		setInterval(delaiBlink);
-		setIterations(nbRun+1);
-		
-		anim=ANIM_SERRURE_ERREUR;
-		
-		enableIfNot();
-		forceNextIteration();		
-	}
-
-	void M_fastled::animBlink()
-    {
-		for (int i=0;i<indexLed;i++)
-		{
-			if (ledStatus)
-			{
-				setLed(i, animBlinkColor);
-			}
-			else
-			{
-				setLed(i, CRGB::Black);
-			}
-		}
-		
-		ledShow();
-		ledStatus=!ledStatus;
-    }
-  
-	void M_fastled::animSerpent()
-    {
-      ledOn(animSerpentIndex, CRGB::Black);
-      animSerpentIndex++;
-      animSerpentIndex%=nbLeds;
-      ledOn(animSerpentIndex, animBlinkSerpent);
-    }
-
-	void M_fastled::animSerrureBloquee()
-	{
-		for (int i=0;i<nbLeds;i++)
-		{
-			if (ledStatus)
-			{
-				leds[i] = CRGB::Red;
-			}
-			else
-			{
-				leds[i] = CRGB::Green;
-			}		
-		  }
-		  FastLED.show();
-
-		ledStatus=!ledStatus;
-    }
-	
-	
-
-	void M_fastled::animSerrureErreur()
-	{
-		for (int i=0;i<nbLeds;i++)
-		{
-			if (ledStatus)
-			{
-				leds[i] = CRGB::Red;
-			}
-			else
-			{
-				leds[i] = CRGB::Black;
-			}		
-		}
-		FastLED.show();
-		
-		ledStatus=!ledStatus;
-	}
-	
-	
-	bool M_fastled::isAnimActive()
-	{
-		if (anim==ANIM_NONE)
-		{
-			return(false);
-		}
-		else
-		{
-			return(true);
-		}
-	}
-	*/
+}
