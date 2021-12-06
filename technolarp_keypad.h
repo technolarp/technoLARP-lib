@@ -5,9 +5,6 @@
 #define I2CADDR 0x27
 
 
-
-
-
 class M_keypad
 {
   private:

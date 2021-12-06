@@ -53,10 +53,12 @@ class M_fastled
 	void animationBlink();
 	void animationBlinkEnd();
 	
-	void animationSerpentStart(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1, CRGB colorToSet2);
+	void animationSerpent01Start(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1, CRGB colorToSet2);
+	void animationSerpent02Start(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2);
 	void animationSerpent();
 	void animationSerpentEnd();	
 	
 	
 	bool isAnimActive();
+	void setAnimation(uint8_t toSet);
 };

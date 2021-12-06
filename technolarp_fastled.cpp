@@ -188,7 +188,22 @@ void M_fastled::animationSerpent()
 	ledOn(indexLed, couleurs[0], true);
 }
 
-void M_fastled::animationSerpentStart(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2)
+void M_fastled::animationSerpent01Start(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1, CRGB colorToSet2)
+{
+	animActuelle = ANIM_SERPENT;
+	animationActive=true;
+	indexLed = 0;
+	
+	iterations = iterationToSet;
+	
+	interval = intervalToSet;
+	couleurs[0] = colorToSet1;
+	couleurs[1] = colorToSet2;
+	allLedOn(couleurs[1], true);
+	previousMillis = millis();
+}
+
+void M_fastled::animationSerpent02Start(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2)
 {
 	animActuelle = ANIM_SERPENT;
 	animationActive=true;
@@ -214,6 +229,11 @@ bool M_fastled::isAnimActive()
 	{
 		return(true);
 	}
+}
+
+void M_fastled::setAnimation(uint8_t toSet)
+{
+	animActuelle = toSet;
 }
 
 void M_fastled::switchAnim(uint8_t anim)

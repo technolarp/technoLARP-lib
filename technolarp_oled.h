@@ -16,15 +16,23 @@
 class M_oled
 {
   private:
-	bool screenDirty = true;
+	bool animationActive;
+	bool oledStatus;
+	uint16_t iterations;
+	
+	uint16_t interval;
+	uint32_t previousMillis;
+	
+	enum {ANIM_NONE, ANIM_BLINK};
+	uint8_t animActuelle;
 	
   public:  
 	M_oled();
 	
 	void beginOled();
 	void showDecimal();
-	void displayText(String texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf);
-	void displayText(String texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf, bool inverted);
+	void displayText(const char * texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf);
+	void displayText(const char * texteAAfficher, int taillePolice, bool videEcran, bool changementEcran, bool centered, bool crlf, bool inverted);
 	
 	void display();
 	void clearDisplay();
@@ -34,4 +42,17 @@ class M_oled
 	
 	void displayCircle(uint16_t x0, uint16_t y0, uint16_t r);
 	void displayFillCircle(uint16_t x0, uint16_t y0, uint16_t r);
+	
+	void updateAnimation();
+	void switchAnim(uint8_t anim);
+	void switchAnimEnd(uint8_t anim);
+	
+	void animationBlink01Start(uint16_t intervalToSet, uint16_t iterationToSet);
+	void animationBlink02Start(uint16_t intervalToSet, uint16_t dureeToSet);
+	void animationBlink();
+	void animationBlinkEnd();
+	
+	void animationDepart();	
+	
+	bool isAnimActive();
 };
