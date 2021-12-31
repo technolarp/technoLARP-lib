@@ -25,6 +25,7 @@ M_fastled::M_fastled()
 	}
 	
 	animActuelle = ANIM_NONE;
+	animForever = false;
 }
 
 void M_fastled::ledOn(uint8_t ledToSet, CRGB colorToSet, bool change)
@@ -106,6 +107,11 @@ void M_fastled::updateAnimation()
 				iterations-=1;
 			}
 			
+			if ( (iterations==0) && animForever )
+			{
+				iterations = 1;
+			}
+			
 			if (iterations==0)
 			{
 				animationActive = false;
@@ -118,6 +124,7 @@ void M_fastled::updateAnimation()
 
 void M_fastled::animationDepart(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1)
 {
+	animForever = false;
 	indexLed = 0;
 	interval = intervalToSet;
 	couleurs[0] = colorToSet1;
@@ -134,6 +141,7 @@ void M_fastled::animationDepart(uint16_t intervalToSet, uint16_t iterationToSet,
 void M_fastled::animationBlinkEnd()
 {
 	allLedOff();
+	animForever = false;
 }
 
 void M_fastled::animationBlink()
@@ -153,6 +161,7 @@ void M_fastled::animationBlink01Start(uint16_t intervalToSet, uint16_t iteration
 	animActuelle = ANIM_BLINK;
 	animationActive=true;
 	ledStatus=true;
+	animForever = false;
 	iterations = iterationToSet;
 	
 	interval = intervalToSet;
@@ -163,9 +172,15 @@ void M_fastled::animationBlink01Start(uint16_t intervalToSet, uint16_t iteration
 
 void M_fastled::animationBlink02Start(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2)
 {
+	animationBlink02Start(intervalToSet, dureeToSet, colorToSet1, colorToSet2, false);
+}
+
+void M_fastled::animationBlink02Start(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2, bool forever)
+{
 	animActuelle = ANIM_BLINK;
 	animationActive=true;
 	ledStatus=true;
+	animForever = forever;
 	
 	iterations = dureeToSet/intervalToSet;
 	
@@ -178,6 +193,7 @@ void M_fastled::animationBlink02Start(uint16_t intervalToSet, uint16_t dureeToSe
 void M_fastled::animationSerpentEnd()
 {
 	allLedOff();
+	animForever = false;
 }
 
 void M_fastled::animationSerpent()
@@ -192,6 +208,7 @@ void M_fastled::animationSerpent01Start(uint16_t intervalToSet, uint16_t iterati
 {
 	animActuelle = ANIM_SERPENT;
 	animationActive=true;
+	animForever = false;
 	indexLed = 0;
 	
 	iterations = iterationToSet;
@@ -207,6 +224,7 @@ void M_fastled::animationSerpent02Start(uint16_t intervalToSet, uint16_t dureeTo
 {
 	animActuelle = ANIM_SERPENT;
 	animationActive=true;
+	animForever = false;
 	indexLed = 0;
 	
 	iterations = dureeToSet/intervalToSet;

@@ -8,10 +8,6 @@ M_7segment::M_7segment()
 	display_7seg.setBrightness(0x0b);
 	display_7seg.clear();
 	
-	
-	blinkAffichage = true;
-	blinkMinutesOuSecondes = true;
-	
 	animationActive=false;
 	displayStatus=true;
 	iterations = 0;
@@ -23,6 +19,11 @@ M_7segment::M_7segment()
 	previousMillisDoublePoint = 0;
 	statutDoublePoint = false;
 	blinkDoublePoint = false;
+	
+	intervalBlinkAffichage = 500;
+	previousMillisBlinkAffichage = 0;
+	blinkAffichage = true;
+	statutBlinkAffichage = true;
 		
 	animForever = false;
 	
@@ -44,10 +45,15 @@ bool M_7segment::getDoublePoint()
 {
 	return(blinkDoublePoint);
 }
-	
+
 void M_7segment::setBlinkAffichage(bool toSet)
 {
 	blinkAffichage = toSet;
+}
+
+void M_7segment::setStatutBlinkAffichage(bool toSet)
+{
+	statutBlinkAffichage = toSet;
 }
 
 bool M_7segment::getBlinkAffichage()
@@ -76,8 +82,7 @@ void M_7segment::showTempsRestant(int16_t tempsRestant)
   data[2] = display_7seg.encodeDigit(seconds/10);
   data[3] = display_7seg.encodeDigit(seconds%10);
   
-  
-  if (blinkAffichage)
+  if (statutBlinkAffichage)
   {
     if(blinkMinutesOuSecondes)
     {
@@ -226,6 +231,15 @@ void M_7segment::updateAnimation()
 		{
 			previousMillisDoublePoint = millis();
 			statutDoublePoint = !statutDoublePoint;
+		}
+	}
+	
+	if (blinkAffichage)
+	{
+		if(millis() - previousMillisBlinkAffichage > intervalBlinkAffichage)
+		{
+			previousMillisBlinkAffichage = millis();
+			statutBlinkAffichage = !statutBlinkAffichage;
 		}
 	}
 	

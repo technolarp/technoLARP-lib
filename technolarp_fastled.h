@@ -21,6 +21,8 @@ class M_fastled
 	enum {ANIM_NONE, ANIM_BLINK, ANIM_SERPENT};
 	uint8_t animActuelle;
 	
+	bool animForever;
+	
 	uint8_t indexLed;
       
   public:  
@@ -49,6 +51,7 @@ class M_fastled
 	void animationDepart(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1);
 	
 	void animationBlink01Start(uint16_t intervalToSet, uint16_t iterationToSet, CRGB colorToSet1, CRGB colorToSet2);
+	void animationBlink02Start(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2, bool forever);
 	void animationBlink02Start(uint16_t intervalToSet, uint16_t dureeToSet, CRGB colorToSet1, CRGB colorToSet2);
 	void animationBlink();
 	void animationBlinkEnd();

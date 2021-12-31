@@ -7,9 +7,6 @@
 class M_7segment
 {
   private:
-	bool blinkAffichage;
-	bool blinkMinutesOuSecondes;
-	
 	bool animationActive;
 	bool displayStatus;
 	uint16_t iterations;
@@ -21,6 +18,12 @@ class M_7segment
 	uint32_t intervalDoublePoint;
 	bool statutDoublePoint;
 	bool blinkDoublePoint;
+	
+	uint32_t previousMillisBlinkAffichage;
+	uint32_t intervalBlinkAffichage;
+	bool blinkAffichage;
+	bool blinkMinutesOuSecondes;
+	bool statutBlinkAffichage;
 	
 	bool animForever;
 	
@@ -55,9 +58,11 @@ class M_7segment
 	void showExplosee();
 	void showSafe();
 	
-	
 	void setBlinkAffichage(bool toSet);
 	bool getBlinkAffichage();
+	
+	void setStatutBlinkAffichage(bool toSet);
+	
 	void setBlinkMinutesOuSecondes(bool toSet);
 	bool getBlinkMinutesOuSecondes();
 };
