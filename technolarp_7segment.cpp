@@ -36,16 +36,26 @@ void M_7segment::showDecimal(uint16_t aDecimal, bool leadingZero)
 	display_7seg.showNumberDec(aDecimal, leadingZero);
 }
 
-void M_7segment::setDoublePoint(bool toSet)
+void M_7segment::setBlinkDoublePoint(bool toSet)
 {
 	blinkDoublePoint = toSet;
 }
 
-bool M_7segment::getDoublePoint()
+bool M_7segment::getBlinkDoublePoint()
 {
 	return(blinkDoublePoint);
 }
 
+void M_7segment::setStatutDoublePoint(bool toSet)
+{
+	statutDoublePoint = toSet;
+}
+
+bool M_7segment::getStatutDoublePoint()
+{
+	return(statutDoublePoint);
+}
+	
 void M_7segment::setBlinkAffichage(bool toSet)
 {
 	blinkAffichage = toSet;
@@ -78,16 +88,16 @@ void M_7segment::showTempsRestant(int16_t tempsRestant)
   uint8_t seconds=tempsRestant%60;
 
   data[0] = display_7seg.encodeDigit(minutes/10);
-  data[1] = display_7seg.encodeDigit(minutes%10) | 0x80;
+  data[1] = display_7seg.encodeDigit(minutes%10);
   data[2] = display_7seg.encodeDigit(seconds/10);
   data[3] = display_7seg.encodeDigit(seconds%10);
-  
+    
   if (statutBlinkAffichage)
   {
     if(blinkMinutesOuSecondes)
     {
       data[0] = 0x00;
-      data[1] = 0x80;
+      data[1] = 0x00;
     }
     else
     {
@@ -98,7 +108,7 @@ void M_7segment::showTempsRestant(int16_t tempsRestant)
   
   if (statutDoublePoint)
   {
-	data[1] = display_7seg.encodeDigit(minutes%10);
+    data[1] = data[1] | 0x80;
   }
   
   display_7seg.setSegments(data);

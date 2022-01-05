@@ -19,6 +19,9 @@ class M_buzzer
   
   void update();
   
+  void setBuzzerActif(bool toSet);
+  bool getBuzzerActif();
+  
   void buzzerOn(uint16_t frequency);
   void buzzerOn();
   void buzzerOff();
@@ -27,5 +30,5 @@ class M_buzzer
   void doubleBeep();
   void tripleBeep();
   void longBeep();
-  //void beep(uint16_t freq, uint16_t interval, uint16_t iterations);
+  void explosionBeep(uint16_t intervalToSet);
 };

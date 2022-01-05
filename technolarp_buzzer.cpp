@@ -52,14 +52,12 @@ void M_buzzer::buzzerOn(uint16_t newFrequency)
 	frequency = newFrequency;
 	analogWrite(buzzerPin, frequency);
 	previousMillis = millis();
-	//Serial.println(F("buzzer ON"));
 }
 
 void M_buzzer::buzzerOn()
 {
 	analogWrite(buzzerPin, frequency);
 	previousMillis = millis();
-	//Serial.println(F("buzzer ON"));
 }
 
 void M_buzzer::buzzerOff()
@@ -67,7 +65,6 @@ void M_buzzer::buzzerOff()
 	analogWrite(buzzerPin, 0);
 	pinMode(buzzerPin, OUTPUT);
 	digitalWrite(buzzerPin, LOW);
-	//Serial.println(F("buzzer OFF"));
 }
 
 void M_buzzer::shortBeep()
@@ -116,4 +113,26 @@ void M_buzzer::longBeep()
 	interval = 400;
 	
 	buzzerOn();
+}
+
+void M_buzzer::explosionBeep(uint16_t intervalToSet)
+{
+	statutBuzzer = true;
+	buzzerActif = true;
+	
+	frequency = 500;
+	iterations = 1;
+	interval = intervalToSet;
+	
+	buzzerOn();
+}
+
+void M_buzzer::setBuzzerActif(bool toSet)
+{
+	buzzerActif = toSet;
+}
+
+bool M_buzzer::getBuzzerActif()
+{
+	return(buzzerActif);
 }

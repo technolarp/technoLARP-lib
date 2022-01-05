@@ -35,8 +35,14 @@ class M_7segment
 	
 	void showDecimal(uint16_t aDecimal, bool leadingZero);
 	
-	void setDoublePoint(bool toSet);
-	bool getDoublePoint();
+	void setBlinkDoublePoint(bool toSet);
+	bool getBlinkDoublePoint();
+	
+	void setStatutDoublePoint(bool toSet);
+	bool getStatutDoublePoint();
+	
+	void setBlinkAffichage(bool toSet);
+	bool getBlinkAffichage();
 	
 	void showTempsRestant(int16_t tempsRestant);
 	
@@ -57,9 +63,6 @@ class M_7segment
 	
 	void showExplosee();
 	void showSafe();
-	
-	void setBlinkAffichage(bool toSet);
-	bool getBlinkAffichage();
 	
 	void setStatutBlinkAffichage(bool toSet);
 	
