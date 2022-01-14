@@ -131,9 +131,9 @@ void M_fastled::animationDepart(uint16_t intervalToSet, uint16_t iterationToSet,
 	
 	for (uint8_t i = 0; i < iterationToSet; i++)
 	{
-		ledOn(i, couleurs[0], true);
+		ledOn(i%nbLeds, couleurs[0], true);
 		delay(intervalToSet);
-		ledOff(i, true);
+		ledOff(i%nbLeds, true);
 	}
 	allLedOff();
 }

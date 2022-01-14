@@ -29,7 +29,6 @@ class M_mcp23017
       
   public:  
 	M_mcp23017();
-	M_mcp23017(uint8_t mcpAddress);
 	
 	void beginMcp23017(uint8_t mcpAddress);
 	

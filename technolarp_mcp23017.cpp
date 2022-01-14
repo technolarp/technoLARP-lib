@@ -2,49 +2,23 @@
 
 M_mcp23017::M_mcp23017()
 {
-
-}
-
-M_mcp23017::M_mcp23017(uint8_t mcpAddress)
-{
-	if (mcpAddress==0)
-	{
-		//mcp.begin();
-		mcp.begin_I2C();
-	}
-	else
-	{
-		//mcp.begin(mcpAddress);
-		mcp.begin_I2C(mcpAddress);
-	}
-  delay(100);
 	
-  for (int i=0;i<16;i++)
-  {
-    //mcp.pinMode(i, INPUT);
-    //mcp.pullUp(i, HIGH);
-    mcp.pinMode(i, INPUT_PULLUP);
-  }
 }
 
 void M_mcp23017::beginMcp23017(uint8_t mcpAddress)
 {
 	if (mcpAddress==0)
 	{
-		//mcp.begin();
 		mcp.begin_I2C();
 	}
 	else
 	{
-		//mcp.begin(mcpAddress);
 		mcp.begin_I2C(mcpAddress);
 	}
   delay(100);
 	
   for (int i=0;i<16;i++)
   {
-    //mcp.pinMode(i, INPUT);
-    //mcp.pullUp(i, HIGH);
     mcp.pinMode(i, INPUT_PULLUP);
   }
 }
