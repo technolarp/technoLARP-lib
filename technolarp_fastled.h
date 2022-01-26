@@ -24,6 +24,12 @@ class M_fastled
 	bool animForever;
 	
 	uint8_t indexLed;
+	
+	bool increaseBrightness;
+	uint8_t indexBrightness;
+	uint16_t intervalScintillement;
+    uint16_t scintillementOnOff;
+	uint32_t previousMillisBrightness;
       
   public:  
 	M_fastled();
@@ -64,4 +70,11 @@ class M_fastled
 	
 	bool isAnimActive();
 	void setAnimation(uint8_t toSet);
+	
+	void controlBrightness(uint8_t maxBrightness);
+	void setControlBrightness(bool toSet);
+	bool getControlBrightness();
+	void setIntervalControlBrightness(uint16_t toSet);
+	uint16_t getIntervalControlBrightness();
+	
 };

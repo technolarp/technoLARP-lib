@@ -2,9 +2,7 @@
 
 M_fastled::M_fastled()
 {
-	// pour utiliser une led ws2811
-	//FastLED.addLeds<WS2811, LED_DATA_PIN>(leds, NB_LEDS_MAX);
-	// pour utiliser une led adafruit neopixel
+	// led adafruit neopixel / ws2812b
 	FastLED.addLeds<NEOPIXEL, LED_DATA_PIN>(leds, NB_LEDS_MAX);
 	FastLED.setBrightness(50);
 	
@@ -18,6 +16,12 @@ M_fastled::M_fastled()
 	previousMillis = 0;
 	
 	indexLed = 0;
+	
+	increaseBrightness = true;
+	indexBrightness = 0;
+	intervalScintillement = 1000;
+    scintillementOnOff = false;
+	previousMillisBrightness = 0;
 	
 	for (uint8_t i=0;i<NB_COULEURS_MAX;i++)
 	{
@@ -288,4 +292,54 @@ void M_fastled::switchAnimEnd(uint8_t anim)
         // nothing to do
       break;
     }
+}
+
+void M_fastled::controlBrightness(uint8_t maxBrightness)
+{
+  if (scintillementOnOff)
+  {
+    if(millis() - previousMillisBrightness > intervalScintillement)
+    {
+      previousMillisBrightness = millis();
+  
+      if (increaseBrightness)
+      {
+        indexBrightness+=1;
+        if (indexBrightness>=250)
+        {
+          increaseBrightness=false;
+        }
+      }
+      else
+      {
+        indexBrightness-=1;
+        if (indexBrightness<5)
+        {
+          increaseBrightness=true;
+        }
+      }
+      FastLED.setBrightness(map(indexBrightness,5,250,5,maxBrightness));
+      FastLED.show();
+    }
+  }
+}
+
+void M_fastled::setControlBrightness(bool toSet)
+{
+	scintillementOnOff=toSet;
+}
+
+bool M_fastled::getControlBrightness()
+{
+	return(scintillementOnOff);
+}
+
+void M_fastled::setIntervalControlBrightness(uint16_t toSet)
+{
+	intervalScintillement = toSet;
+}
+
+uint16_t M_fastled::getIntervalControlBrightness()
+{
+	return(intervalScintillement);
 }
