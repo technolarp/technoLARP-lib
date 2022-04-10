@@ -29,6 +29,7 @@ class M_buzzer
   void shortBeep();
   void doubleBeep();
   void tripleBeep();
+  void xBeep(uint8_t x);
   void longBeep();
   void explosionBeep(uint16_t intervalToSet);
 };

@@ -63,9 +63,12 @@ class M_7segment
 	
 	void showExplosee();
 	void showSafe();
+	void showNothing();
 	
 	void setStatutBlinkAffichage(bool toSet);
 	
 	void setBlinkMinutesOuSecondes(bool toSet);
 	bool getBlinkMinutesOuSecondes();
+	
+	void showScale(uint8_t x);
 };

@@ -103,6 +103,26 @@ void M_buzzer::tripleBeep()
 	buzzerOn();
 }
 
+void M_buzzer::xBeep(uint8_t x)
+{
+	statutBuzzer = true;
+	buzzerActif = true;
+	
+	frequency = 1000;
+	if (x>0)
+	{
+	  iterations = (x*2)-1;
+	}
+	else
+	{
+	  iterations = 0;
+	}
+	
+	interval = 100;
+	
+	buzzerOn();
+}
+
 void M_buzzer::longBeep()
 {
 	statutBuzzer = true;

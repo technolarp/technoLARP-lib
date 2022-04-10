@@ -130,6 +130,12 @@ void M_7segment::showSafe()
   display_7seg.setSegments(SEG_SAFE);
 }
 
+void M_7segment::showNothing()
+{
+  uint8_t SEG_NOTHING[] = {0x00, 0x00, 0x00, 0x00};
+  display_7seg.setSegments(SEG_NOTHING);
+}
+
 
 
 void M_7segment::animationBoomStart(uint16_t intervalToSet, uint16_t dureeToSet)
@@ -280,4 +286,86 @@ void M_7segment::updateAnimation()
 			}
 		}
 	}
+}
+
+
+void M_7segment::showScale(uint8_t x)
+{
+	uint8_t data[] = { 0x00, 0x00, 0x00, 0x00 };
+	
+	uint8_t SEG_VIDE = 0x00;
+	uint8_t SEG_UNE_BARRE = 0x30; 
+	uint8_t SEG_DEUX_BARRE = 0x36; 
+	
+	switch (x) 
+    {
+      case 0:
+        data[0] = SEG_VIDE;
+		data[1] = SEG_VIDE;
+		data[2] = SEG_VIDE;
+		data[3] = SEG_VIDE;
+      break;
+	  
+	  case 1:
+        data[0] = SEG_UNE_BARRE;
+		data[1] = SEG_VIDE;
+		data[2] = SEG_VIDE;
+		data[3] = SEG_VIDE;
+      break;
+	  
+	  case 2:
+        data[0] = SEG_DEUX_BARRE;
+		data[1] = SEG_VIDE;
+		data[2] = SEG_VIDE;
+		data[3] = SEG_VIDE;
+      break;
+	  
+	  case 3:
+        data[0] = SEG_DEUX_BARRE;
+		data[1] = SEG_UNE_BARRE;
+		data[2] = SEG_VIDE;
+		data[3] = SEG_VIDE;
+      break;
+	  
+	  case 4:
+        data[0] = SEG_DEUX_BARRE;
+		data[1] = SEG_DEUX_BARRE;
+		data[2] = SEG_VIDE;
+		data[3] = SEG_VIDE;
+      break;
+	  
+	  case 5:
+        data[0] = SEG_DEUX_BARRE;
+		data[1] = SEG_DEUX_BARRE;
+		data[2] = SEG_UNE_BARRE;
+		data[3] = SEG_VIDE;
+      break;
+	  
+	  case 6:
+        data[0] = SEG_DEUX_BARRE;
+		data[1] = SEG_DEUX_BARRE;
+		data[2] = SEG_DEUX_BARRE;
+		data[3] = SEG_VIDE;
+      break;
+	  
+	  case 7:
+        data[0] = SEG_DEUX_BARRE;
+		data[1] = SEG_DEUX_BARRE;
+		data[2] = SEG_DEUX_BARRE;
+		data[3] = SEG_UNE_BARRE;
+      break;
+	  
+	  case 8:
+        data[0] = SEG_DEUX_BARRE;
+		data[1] = SEG_DEUX_BARRE;
+		data[2] = SEG_DEUX_BARRE;
+		data[3] = SEG_DEUX_BARRE;
+      break;
+	  
+      default:
+        // nothing to do
+      break;
+    }
+  
+	display_7seg.setSegments(data);
 }

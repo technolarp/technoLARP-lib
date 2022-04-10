@@ -99,6 +99,16 @@ void M_oled::displayFillRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h)
 	display_oled.fillRect(x0, y0, w, h, SSD1306_WHITE);
 }
 
+void M_oled::displayFillRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h, uint16_t color)
+{
+	display_oled.fillRect(x0, y0, w, h, color);
+}
+
+void M_oled::displayFillTriangle(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color)
+{
+	display_oled.fillTriangle(x0, y0, x1, y1, x2, y2, color);
+}
+
 void M_oled::display()
 {
 	display_oled.display();
