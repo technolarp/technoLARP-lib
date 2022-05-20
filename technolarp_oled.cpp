@@ -130,6 +130,11 @@ void M_oled::displayFillCircle(uint16_t x0, uint16_t y0, uint16_t r)
 	display_oled.fillCircle(x0, y0, r, SSD1306_WHITE);
 }
 
+void M_oled::moveCursor(int16_t x0, int16_t y0)
+{
+	display_oled.setCursor(x0, y0);
+}
+
 void M_oled::updateAnimation()
 {
 	if (animationActive)

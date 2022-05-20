@@ -46,6 +46,8 @@ class M_oled
 	void displayCircle(uint16_t x0, uint16_t y0, uint16_t r);
 	void displayFillCircle(uint16_t x0, uint16_t y0, uint16_t r);
 	
+	void moveCursor(int16_t x0, int16_t y0);
+	
 	void updateAnimation();
 	void switchAnim(uint8_t anim);
 	void switchAnimEnd(uint8_t anim);
